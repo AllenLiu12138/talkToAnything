@@ -26,12 +26,13 @@
         <input type="submit" value="Ask">
     </form>
 
-    <h2>AI Response</h2>
-    <div id="response"></div>
+    <h2>Conversation History</h2>
+    <div id="conversation"></div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         var session_id = ''; // Global variable to hold the session_id
+        var conversation_history = ''; // Global variable to hold the conversation
 
         $('#uploadForm').on('submit', function(event) {
             event.preventDefault();
@@ -64,6 +65,7 @@
             event.preventDefault();
 
             var message = $('#message').val();
+            conversation_history += 'You: ' + message + '<br>'; // Add your question to the conversation history
 
             $.ajax({
                 url: '/interact',
@@ -71,7 +73,9 @@
                 contentType: 'application/json',
                 data: JSON.stringify({ message: message, session_id: session_id }), // Include the session_id
                 success: function(data) {
-                    $('#response').text(data.response.role + ': ' + data.response.content);
+                    var response = data.response.role + ': ' + data.response.content;
+                    conversation_history += response + '<br>'; // Add the response to the conversation history
+                    $('#conversation').html(conversation_history); // Display the conversation history
                 },
                 error: function(xhr, status, error) {
                     alert('An error occurred: ' + xhr.responseText);

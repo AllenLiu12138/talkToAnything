@@ -87,7 +87,7 @@ def interact_with_gpt(question, session_id):
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo-16k",
         messages=[
-            {"role": "system", "content": "I am the document. user will ask questions based on document. I will askwer those questions based on the information on document"},
+            {"role": "system", "content": "I am the document. user will ask questions based on document. I will askwer those questions based on the information on document, I will answer question from first perspective"},
             {"role": "user", "content": prompt}
         ],
         temperature=0.6  # Limiting the message to a shorter length
