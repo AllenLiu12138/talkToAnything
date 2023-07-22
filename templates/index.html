@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.css">
+    <style>
+        /* Add your CSS styles here */
+    </style>
+</head>
+<body>
+    <h2>Upload Your File</h2>
+
+    <form action="/upload" method="post" enctype="multipart/form-data" id="uploadForm">
+        <label for="file">File:</label>
+        <input type="file" id="file" name="file" accept=".pdf, .doc, .docx, .wav, .mp4, .jpg, .png"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <div id="loading" style="display: none;">
+        <img src="https://i.gifer.com/L6MI.gif" alt="loading">
+    </div>
+
+    <h2>Ask a Question</h2>
+    <form id="chatForm">
+        <label for="message">Your Question:</label>
+        <input type="text" id="message" name="message">
+        <input type="submit" value="Ask">
+    </form>
+
+    <h2>AI Response</h2>
+    <div id="response"></div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        var session_id = ''; // Global variable to hold the session_id
+
+        $('#uploadForm').on('submit', function(event) {
+            event.preventDefault();
+
+            var formData = new FormData(this);
+
+            $.ajax({
+                url: '/upload',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                beforeSend: function() {
+                    $('#loading').show();
+                },
+                complete: function() {
+                    $('#loading').hide();
+                },
+                success: function(data) {
+                    alert(data.message);
+                    session_id = data.session_id; // Store the session_id
+                },
+                error: function(xhr, status, error) {
+                    alert('An error occurred: ' + xhr.responseText);
+                }
+            });
+        });
+
+        $('#chatForm').on('submit', function(event) {
+            event.preventDefault();
+
+            var message = $('#message').val();
+
+            $.ajax({
+                url: '/interact',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ message: message, session_id: session_id }), // Include the session_id
+                success: function(data) {
+                    $('#response').text(data.response.role + ': ' + data.response.content);
+                },
+                error: function(xhr, status, error) {
+                    alert('An error occurred: ' + xhr.responseText);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
