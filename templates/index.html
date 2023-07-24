@@ -3,31 +3,89 @@
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.css">
     <style>
-        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="file"], 
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        #conversation {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+        
+        #conversation p {
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
-    <h2>Upload Your File</h2>
+    <div class="container">
+        <h2>Upload Your File</h2>
+        <form action="/upload" method="post" enctype="multipart/form-data" id="uploadForm">
+            <label for="file">File:</label>
+            <input type="file" id="file" name="file" accept=".pdf, .doc, .docx, .wav, .mp4, .jpg, .png">
+            <label for="description">Document Description:</label>
+            <input type="text" id="description" name="description">
+            <input type="submit" value="Submit">
+        </form>
 
-    <form action="/upload" method="post" enctype="multipart/form-data" id="uploadForm">
-        <label for="file">File:</label>
-        <input type="file" id="file" name="file" accept=".pdf, .doc, .docx, .wav, .mp4, .jpg, .png"><br><br>
-        <input type="submit" value="Submit">
-    </form>
+        <div id="loading" style="display: none;">
+            <img src="https://i.gifer.com/L6MI.gif" alt="loading">
+        </div>
 
-    <div id="loading" style="display: none;">
-        <img src="https://i.gifer.com/L6MI.gif" alt="loading">
+        <h2>Ask a Question</h2>
+        <form id="chatForm">
+            <label for="message">Your Question:</label>
+            <input type="text" id="message" name="message">
+            <input type="submit" value="Ask">
+        </form>
+
+        <h2>Conversation History</h2>
+        <div id="conversation"></div>
     </div>
-
-    <h2>Ask a Question</h2>
-    <form id="chatForm">
-        <label for="message">Your Question:</label>
-        <input type="text" id="message" name="message">
-        <input type="submit" value="Ask">
-    </form>
-
-    <h2>Conversation History</h2>
-    <div id="conversation"></div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
@@ -65,7 +123,7 @@
             event.preventDefault();
 
             var message = $('#message').val();
-            conversation_history += 'You: ' + message + '<br>'; // Add your question to the conversation history
+            conversation_history += '<p>You: ' + message + '</p>'; // Add your question to the conversation history
 
             $.ajax({
                 url: '/interact',
@@ -74,7 +132,7 @@
                 data: JSON.stringify({ message: message, session_id: session_id }), // Include the session_id
                 success: function(data) {
                     var response = data.response.role + ': ' + data.response.content;
-                    conversation_history += response + '<br>'; // Add the response to the conversation history
+                    conversation_history += '<p>' + response + '</p>'; // Add the response to the conversation history
                     $('#conversation').html(conversation_history); // Display the conversation history
                 },
                 error: function(xhr, status, error) {

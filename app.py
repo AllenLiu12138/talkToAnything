@@ -11,7 +11,7 @@ import os
 import uuid
 import pdfplumber
 
-openai.api_key = "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"
+openai.api_key = "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"
 app = Flask(__name__)
 app.secret_key = "your_secret_key"
 
@@ -53,6 +53,7 @@ def home():
 def upload():
     session_id = str(uuid.uuid4())
     file = request.files['file']
+    description = request.form.get('description', '')
     file_path = os.path.join("/tmp", secure_filename(file.filename))
     file.save(file_path)
 
@@ -71,23 +72,26 @@ def upload():
         else:
             return jsonify({"error": "Invalid file type"}), 400
 
-        documents[session_id] = content
+        documents[session_id] = {'content': content, 'description': description}
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
     return jsonify({"message": "File uploaded successfully", "session_id": session_id}), 200
 
 def interact_with_gpt(question, session_id):
-    content = documents.get(session_id)
-    if content is None:
+    document = documents.get(session_id)
+    if document is None:
         return jsonify({"error": "No document found"}), 400
 
-    prompt = content + "\nQuestion: " + question
+    content = document['content']
+    description = document['description']
+
+    prompt = f"{description}\n{content}\nQuestion: {question}"
 
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo-16k",
         messages=[
-            {"role": "system", "content": "I am the document. user will ask questions based on document. I will askwer those questions based on the information on document, I will answer question from first perspective"},
+            {"role": "system", "content": "you are the doc. User will ask you question. You will answer questions with first perspective"},
             {"role": "user", "content": prompt}
         ],
         temperature=0.6  # Limiting the message to a shorter length
