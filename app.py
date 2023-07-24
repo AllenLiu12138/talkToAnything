@@ -11,7 +11,7 @@ import os
 import uuid
 import pdfplumber
 
-openai.api_key = "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"
+openai.api_key = "Your API Key"
 app = Flask(__name__)
 app.secret_key = "your_secret_key"
 
