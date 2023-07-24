@@ -4,9 +4,7 @@ This application is a Python Flask based service which accepts multiple types of
 
 ## Star Me on GitHub
 
-You can also show your support by starring this GitHub repository:
-
-[![GitHub stars](https://github.com/AllenLiu12138/talkToAnything/tree/main)
+[![Star this Repository](https://github.com/Your-Username/Your-Repo-Name/raw/main/star-image.png)](https://github.com/Your-Username/Your-Repo-Name/stargazers)
 
 ## Support Me
 
