@@ -6,7 +6,7 @@ This application is a Python Flask based service which accepts multiple types of
 
 You can also show your support by starring this GitHub repository:
 
-[![GitHub stars](https://img.shields.io/github/stars/Your-Username/Your-Repo-Name.svg?style=social&label=Star)](https://github.com/Your-Username/Your-Repo-Name)
+[![GitHub stars](https://github.com/AllenLiu12138/talkToAnything/tree/main)
 
 ## Support Me
 
