@@ -1,6 +1,20 @@
-# Your Flask Application
+# Talk to Anything
 
 This application is a Python Flask based service which accepts multiple types of documents (.pdf, .doc, .docx, .jpg, .png, .wav, .mp4), extracts and stores the text content. It provides an endpoint to interact with the stored content via GPT-3.5-turbo-16k model.
+
+
+## Support Me
+
+If you find this project useful, you can support me by buying me a coffee:
+
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee--yellow.svg?style=for-the-badge&logo=ko-fi)](https://www.buymeacoffee.com/xliu28x)
+
+## Connect with Me
+
+You can connect with me on LinkedIn:
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn--blue.svg?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/xu-liu-644666225/)
+
 
 ## Getting Started
 
